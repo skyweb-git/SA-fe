@@ -1,4 +1,5 @@
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5001';
+const rawApiUrl = (typeof import.meta !== 'undefined' && import.meta.env?.VITE_API_URL) || 'https://sa.skywebinternational.com';
+const API_BASE_URL = rawApiUrl.replace(/\/+$/, '').replace(/\/api$/, '');
 const CONTENT_STORAGE_KEY = 'edion_royal_website_content_v1';
 const CMS_CHANNEL_NAME = 'edion_royal_cms_sync_channel';
 
