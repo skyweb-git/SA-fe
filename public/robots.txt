@@ -1,0 +1,9 @@
+# Robots.txt for Edion Royal Guesthouse
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+Disallow: /private/
+
+# Sitemaps
+Sitemap: https://edionroyal.co.za/sitemap.xml
