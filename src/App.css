@@ -1449,45 +1449,336 @@
   }
 }
 
+/* ============================================================ */
+/* MOBILE NAVIGATION, DRAWER & FLUID MENU STYLES                */
+/* ============================================================ */
+
+/* Hamburger Button */
+.mobile-hamburger-btn {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1.5px solid rgba(255, 255, 255, 0.95);
+  color: #0f1c2e;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(10, 25, 45, 0.08);
+  transition: all 0.25s ease;
+  padding: 0;
+}
+
+.mobile-hamburger-btn:hover {
+  background: #ffffff;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(10, 25, 45, 0.12);
+}
+
+.mobile-hamburger-btn:active {
+  transform: scale(0.95);
+}
+
+/* Mobile Drawer Overlay & Sheet */
+.mobile-drawer-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 20, 32, 0.65);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  z-index: 9999;
+  display: flex;
+  justify-content: flex-end;
+  animation: drawerFadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.mobile-drawer-content {
+  width: 88%;
+  max-width: 380px;
+  height: 100%;
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  box-shadow: -15px 0 45px rgba(0, 0, 0, 0.25);
+  animation: drawerSlideIn 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow-y: auto;
+  padding: 24px 20px 32px;
+}
+
+@keyframes drawerFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes drawerSlideIn {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+
+.mobile-drawer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #eef2f6;
+}
+
+.mobile-drawer-logo {
+  padding: 6px 14px;
+  box-shadow: none;
+  background: #f8fafc;
+  border-color: #e2e8f0;
+}
+
+.mobile-drawer-close {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #f1f5f9;
+  color: #475569;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 1px solid #e2e8f0;
+}
+
+.mobile-drawer-close:hover {
+  background: #e2e8f0;
+  color: #0f172a;
+}
+
+.mobile-drawer-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+}
+
+.mobile-drawer-nav-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  border-radius: 16px;
+  background: #ffffff;
+  border: 1px solid transparent;
+  color: #1e293b;
+  font-weight: 700;
+  font-size: 15.5px;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  text-align: left;
+  width: 100%;
+}
+
+.mobile-drawer-nav-item:hover,
+.mobile-drawer-nav-item.active {
+  background: #f8fafc;
+  border-color: #e2e8f0;
+  color: #0f172a;
+}
+
+.mobile-drawer-nav-item.active {
+  background: #f1f5f9;
+  border-color: #cbd5e1;
+  color: #102138;
+}
+
+.mobile-drawer-item-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.mobile-nav-icon-box {
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  background: #f1f5f9;
+  color: #475569;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.mobile-drawer-nav-item.active .mobile-nav-icon-box {
+  background: #102138;
+  color: #ffffff;
+}
+
+.mobile-nav-item-arrow {
+  color: #94a3b8;
+  transition: transform 0.2s ease;
+}
+
+.mobile-drawer-nav-item:hover .mobile-nav-item-arrow,
+.mobile-drawer-nav-item.active .mobile-nav-item-arrow {
+  color: #102138;
+  transform: translateX(2px);
+}
+
+.mobile-drawer-actions-card {
+  margin-top: 24px;
+  background: #f8fafc;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 20px;
+  padding: 18px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.mobile-drawer-phone-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.mobile-drawer-label {
+  display: block;
+  font-size: 11px;
+  font-weight: 750;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #64748b;
+  margin-bottom: 3px;
+}
+
+.mobile-drawer-phone-number {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 800;
+  color: #0f172a;
+  text-decoration: none;
+}
+
+.btn-drawer-whatsapp {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 7px 13px;
+  background: #25d366;
+  color: #ffffff;
+  border-radius: 9999px;
+  font-size: 12px;
+  font-weight: 750;
+  text-decoration: none;
+  box-shadow: 0 2px 8px rgba(37, 211, 102, 0.3);
+  transition: transform 0.2s ease;
+}
+
+.btn-drawer-whatsapp:hover {
+  transform: scale(1.04);
+}
+
+.btn-drawer-book {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 13px;
+  background: #102138;
+  color: #ffffff;
+  border-radius: 14px;
+  font-size: 14.5px;
+  font-weight: 750;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 16px rgba(16, 33, 56, 0.25);
+}
+
+.btn-drawer-book:hover {
+  background: #1b3356;
+}
+
+/* ============================================================ */
+/* MEDIA QUERIES: TABLETS (< 900px) & SMARTPHONES (< 600px)    */
+/* ============================================================ */
+
 @media (max-width: 900px) {
-  .rivr-navbar {
-    padding: 24px 28px;
+  .rivr-navbar,
+  .standalone-navbar-wrapper {
+    padding: 16px 20px;
+    gap: 12px;
   }
   
   .nav-menu {
-    display: none;
+    display: none !important;
+  }
+
+  .mobile-hamburger-btn {
+    display: flex !important;
+  }
+
+  .nav-right-actions {
+    gap: 10px;
+  }
+
+  .nav-phone-pill {
+    padding: 8px 14px;
+    font-size: 13px;
+  }
+
+  .btn-book-demo {
+    padding: 8px 16px;
+    font-size: 13.5px;
   }
   
   .hero-card-frame {
     height: auto;
-    min-height: 640px;
+    min-height: 560px;
+    border-radius: 32px;
   }
 
   .hero-center-content {
     margin-left: 0;
-    padding: 20px 28px;
+    padding: 24px 28px;
+    max-width: 100%;
+  }
+
+  .hero-main-title {
+    font-size: clamp(32px, 5.5vw, 48px);
+    line-height: 1.15;
+  }
+
+  .hero-subtitle {
+    font-size: 16px;
+    line-height: 1.6;
     max-width: 100%;
   }
   
   .hero-cta-button-group {
     flex-direction: row;
     width: 100%;
-    max-width: 420px;
+    max-width: 480px;
+    gap: 12px;
   }
   
   .bottom-left-card {
-    margin-left: 20px;
-    margin-bottom: 20px;
+    margin-left: 18px;
+    margin-bottom: 18px;
   }
   
   .bottom-right-card {
-    padding: 16px 24px 20px 20px;
+    padding: 14px 20px;
   }
 
   .stats-banner-card {
     grid-template-columns: repeat(2, 1fr);
-    padding: 32px 36px;
-    gap: 24px;
+    padding: 28px 24px;
+    gap: 20px;
+    border-radius: 28px;
   }
 
   .stat-item:nth-child(3)::before {
@@ -1500,65 +1791,348 @@
 
   .amenities-grid-8 {
     grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
   }
 
   .distances-grid,
   .reviews-grid {
     grid-template-columns: 1fr;
   }
+
+  .welcome-about-card {
+    padding: 36px 28px;
+    border-radius: 30px;
+  }
+
+  .amenities-page-header-card {
+    padding: 40px 28px;
+    border-radius: 30px;
+  }
+}
+
+.mobile-quick-call-wrapper {
+  display: none;
 }
 
 @media (max-width: 600px) {
   .rivr-page-container {
-    padding: 12px 12px 40px;
+    padding: 10px 10px 40px;
   }
   
-  .hero-card-frame {
-    border-radius: 28px;
-  }
-  
-  .hero-bottom-bar {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 20px;
-  }
-  
-  .bottom-left-card {
-    margin: 0 18px;
-    align-self: flex-start;
-  }
-  
-  .bottom-right-island-wrapper {
-    align-self: flex-end;
-  }
-  
-  .curve-top, .curve-left {
-    display: none;
+  /* 1. Header on Mobile: Compact Logo on left, single Hamburger on right */
+  .rivr-navbar,
+  .standalone-navbar-wrapper {
+    padding: 8px 10px;
+    gap: 8px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
   }
 
-  .stats-banner-card {
-    grid-template-columns: 1fr;
-    padding: 28px 24px;
+  .rivr-logo {
+    padding: 6px 12px;
+    gap: 6px;
+    background: rgba(255, 255, 255, 0.94);
+    border: 1px solid rgba(255, 255, 255, 0.95);
+    border-radius: 9999px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+  }
+
+  .logo-icon {
+    width: 18px;
+    height: 18px;
+  }
+
+  .logo-text {
+    font-size: 13.5px;
+    font-weight: 800;
+  }
+
+  .logo-subtext {
+    font-size: 10.5px;
+    margin-left: 2px;
+  }
+
+  /* Hide separate phone and book buttons in the header on mobile */
+  .nav-right-actions .nav-phone-pill,
+  .nav-right-actions .btn-book-demo {
+    display: none !important;
+  }
+
+  .mobile-hamburger-btn {
+    display: flex !important;
+    width: 38px;
+    height: 38px;
+    min-width: 38px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.94);
+    border: 1px solid rgba(255, 255, 255, 0.95);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  }
+
+  /* 2. Hero Section: Let the Image Breathe (~70-75vh) */
+  .hero-card-frame {
+    height: 72vh;
+    min-height: 480px;
+    max-height: 560px;
     border-radius: 26px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding-bottom: 20px;
+    box-shadow: 0 16px 36px -10px rgba(10, 25, 45, 0.22), 0 0 0 1px rgba(255, 255, 255, 0.95);
+  }
+
+  .hero-center-content {
+    padding: 16px 16px 0;
+    margin-left: 0;
+    max-width: 100%;
+  }
+
+  /* Location: Subtle text/icon rather than large pill */
+  .fluid-staking-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    margin-bottom: 8px;
+    color: #ffffff;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
+  }
+
+  .fluid-staking-badge .badge-icon {
+    width: 13px;
+    height: 13px;
+    color: #ffffff;
+  }
+
+  .fluid-staking-badge .badge-text {
+    color: #ffffff;
+    font-weight: 800;
+  }
+
+  /* Heading & Subtitle */
+  .hero-main-title {
+    font-size: 26px;
+    line-height: 1.12;
+    letter-spacing: -0.5px;
+    margin-bottom: 8px;
+    font-weight: 850;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+  }
+
+  .hero-subtitle {
+    font-size: 13.5px;
+    line-height: 1.4;
+    margin-bottom: 18px;
+    max-width: 92%;
+    color: rgba(255, 255, 255, 0.94);
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+  }
+
+  /* One Single Primary CTA */
+  .hero-cta-button-group {
+    flex-direction: column;
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 0;
+  }
+
+  .hero-cta-button-group .btn-cta-secondary {
+    display: none !important;
+  }
+
+  .hero-cta-button-group .btn-cta-primary {
+    width: 100%;
+    height: 48px;
+    min-height: 48px;
+    padding: 0 18px;
+    font-size: 14.5px;
+    font-weight: 800;
+    border-radius: 14px;
+    justify-content: center;
+    gap: 8px;
+    background: #ffffff;
+    color: #0f1c2e;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.25);
+  }
+
+  /* 3. Hide bottom reservation card, address card, curves inside hero */
+  .hero-bottom-bar {
+    display: none !important;
+  }
+
+  /* 4. Remove View 1 / View 2 / View 3 Switcher */
+  .bg-switcher-bar {
+    display: none !important;
+  }
+
+  /* 5. Mobile-Only Clean Full-Width Call / WhatsApp Button */
+  .mobile-quick-call-wrapper {
+    display: block;
+    width: 100%;
+    margin: 10px 0 12px;
+  }
+
+  .btn-mobile-call-whatsapp {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    height: 48px;
+    background: #ffffff;
+    color: #0f172a;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 14px;
+    font-weight: 750;
+    font-size: 14px;
+    text-decoration: none;
+    box-shadow: 0 4px 14px rgba(15, 30, 50, 0.05);
+    transition: all 0.2s ease;
+  }
+
+  .btn-mobile-call-whatsapp:active {
+    transform: scale(0.98);
+  }
+
+  /* 6. Ratings Banner: Compact Horizontal Strip */
+  .stats-banner-card {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-around;
+    padding: 12px 14px;
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.95);
+    box-shadow: 0 4px 14px rgba(15, 30, 50, 0.04);
+    gap: 6px 12px;
+    margin-top: 0;
+  }
+
+  .stat-item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 4px;
+    padding: 2px 4px;
   }
 
   .stat-item::before {
     display: none !important;
   }
 
-  .booking-form-grid {
-    grid-template-columns: 1fr;
+  .stat-item .stat-value {
+    font-size: 14.5px;
+    font-weight: 850;
+    color: #0f172a;
   }
 
-  .booking-textarea-dark,
-  .btn-send-enquiry {
-    grid-column: span 1;
+  .stat-item .stat-value::after {
+    content: ' ★';
+    font-size: 11px;
+    color: #eab308;
+  }
+
+  .stat-item .stat-desc {
+    font-size: 12px;
+    font-weight: 650;
+    color: #475569;
+    margin-top: 0;
+  }
+
+  /* Welcome Card */
+  .welcome-about-card {
+    padding: 22px 16px;
+    border-radius: 20px;
+    gap: 14px;
+  }
+
+  .welcome-title {
+    font-size: 22px;
+    line-height: 1.25;
+  }
+
+  .welcome-body-text {
+    font-size: 13.5px;
+    line-height: 1.55;
+  }
+
+  .welcome-amenities-tags {
+    gap: 6px;
+  }
+
+  .amenity-tag {
+    padding: 6px 10px;
+    font-size: 12px;
+  }
+
+  .section-header-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .section-title {
+    font-size: 22px;
+    line-height: 1.25;
+  }
+
+  .btn-section-action {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .amenities-grid-8 {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .amenity-feature-card {
+    padding: 14px 14px;
+    border-radius: 16px;
+  }
+
+  .amenities-page-header-card {
+    padding: 24px 16px;
+    border-radius: 20px;
+  }
+
+  .modal-backdrop {
+    padding: 12px;
+    align-items: flex-end;
+  }
+
+  .modal-container {
+    max-height: calc(100vh - 24px);
+    overflow-y: auto;
+    padding: 22px 16px;
+    border-radius: 22px;
+    width: 100%;
+    margin: 0;
+  }
+
+  .form-input {
+    font-size: 16px !important; /* Prevents auto-zoom on iOS */
+    padding: 12px 14px;
+    min-height: 44px;
   }
 
   .guesthouse-footer {
     flex-direction: column;
     gap: 12px;
     text-align: center;
+    padding: 24px 16px;
   }
 }
 

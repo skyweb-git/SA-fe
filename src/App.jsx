@@ -33,6 +33,8 @@ import {
   MessageSquare
 } from 'lucide-react';
 import { DestinationCard } from './components/ui/card-21';
+import Navbar from './components/Navbar';
+import MobileDrawer from './components/MobileDrawer';
 import { 
   createBookingEnquiry, 
   getLocalContent, 
@@ -48,6 +50,8 @@ export default function App() {
   const [activeModal, setActiveModal] = useState(null); // 'booking' | null
   const [selectedRoomName, setSelectedRoomName] = useState('');
   const [bgChoice, setBgChoice] = useState('custom'); // 'custom' | 'estate' | 'surreal'
+  const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
+  const [isReviewsPaused, setIsReviewsPaused] = useState(false);
   const reviewsScrollRef = useRef(null);
   const [bookingData, setBookingData] = useState({
     name: '',
@@ -59,6 +63,27 @@ export default function App() {
     message: ''
   });
   const [bookingSubmitted, setBookingSubmitted] = useState(false);
+
+  // Auto-slide effect for "What our guests say" reviews carousel
+  useEffect(() => {
+    if (currentPage !== 'home' || isReviewsPaused) return;
+
+    const interval = setInterval(() => {
+      if (reviewsScrollRef.current) {
+        const container = reviewsScrollRef.current;
+        const maxScrollLeft = container.scrollWidth - container.clientWidth;
+        const scrollStep = window.innerWidth <= 600 ? 304 : 404;
+
+        if (container.scrollLeft >= maxScrollLeft - 25) {
+          container.scrollTo({ left: 0, behavior: 'smooth' });
+        } else {
+          container.scrollBy({ left: scrollStep, behavior: 'smooth' });
+        }
+      }
+    }, 3800);
+
+    return () => clearInterval(interval);
+  }, [currentPage, isReviewsPaused]);
 
   // Sync with Backend API and Live Admin Broadcast updates
   useEffect(() => {
@@ -350,70 +375,13 @@ export default function App() {
             <div className="hero-overlay-layer" />
 
             {/* TOP NAVBAR */}
-            <header className="rivr-navbar">
-              <div className="rivr-logo" onClick={() => navigateTo('home')}>
-                <div className="logo-icon">
-                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-                    <polyline points="9 22 9 12 15 12 15 22"></polyline>
-                  </svg>
-                </div>
-                <div>
-                  <span className="logo-text">Edion Royal</span>
-                  <span className="logo-subtext">Guesthouse</span>
-                </div>
-              </div>
-
-              <nav className="nav-menu">
-                <button 
-                  className={`nav-link ${currentPage === 'home' ? 'active' : ''}`}
-                  onClick={() => navigateTo('home')}
-                >
-                  Home
-                </button>
-                <button 
-                  className={`nav-link ${currentPage === 'rooms' ? 'active' : ''}`}
-                  onClick={() => navigateTo('rooms')}
-                >
-                  Rooms
-                </button>
-                <button 
-                  className={`nav-link ${currentPage === 'amenities' ? 'active' : ''}`}
-                  onClick={() => navigateTo('amenities')}
-                >
-                  Amenities
-                </button>
-                <button 
-                  className={`nav-link ${currentPage === 'location' ? 'active' : ''}`}
-                  onClick={() => navigateTo('location')}
-                >
-                  Location
-                </button>
-                <button 
-                  className={`nav-link ${currentPage === 'contact' ? 'active' : ''}`}
-                  onClick={() => navigateTo('contact')}
-                >
-                  Contact
-                </button>
-              </nav>
-
-              <div className="nav-right-actions">
-                <a href={`tel:${cmsContent?.contact?.callNumber || '0789724254'}`} className="nav-phone-pill">
-                  <Phone size={14} />
-                  <span>{cmsContent?.contact?.phone || '078 972 4254'}</span>
-                </a>
-                <button 
-                  className="btn-book-demo"
-                  onClick={() => setActiveModal('booking')}
-                  aria-label="Book Now"
-                >
-                  <span>Book now</span>
-                  <div className="btn-icon-circle">
-                    <ArrowUpRight size={13} strokeWidth={2.6} />
-                  </div>
-                </button>
-              </div>
-            </header>
+            <Navbar 
+              currentPage={currentPage}
+              navigateTo={navigateTo}
+              onOpenBooking={() => setActiveModal('booking')}
+              cmsContent={cmsContent}
+              onToggleMobileDrawer={() => setMobileDrawerOpen(prev => !prev)}
+            />
 
             {/* CENTER HERO CONTENT */}
             <section className="hero-center-content">
@@ -496,6 +464,17 @@ export default function App() {
                 </div>
               </div>
             </footer>
+          </div>
+
+          {/* MOBILE-ONLY QUICK CALL / WHATSAPP ACTION */}
+          <div className="mobile-quick-call-wrapper">
+            <a 
+              href={`tel:${cmsContent?.contact?.callNumber || '0789724254'}`}
+              className="btn-mobile-call-whatsapp"
+            >
+              <Phone size={16} strokeWidth={2.4} />
+              <span>Call / WhatsApp</span>
+            </a>
           </div>
 
           {/* BACKGROUND VIEW SWITCHER */}
@@ -685,7 +664,16 @@ export default function App() {
               </div>
             </div>
 
-            <div className="reviews-scroll-container" ref={reviewsScrollRef}>
+            <div 
+              className="reviews-scroll-container" 
+              ref={reviewsScrollRef}
+              onMouseEnter={() => setIsReviewsPaused(true)}
+              onMouseLeave={() => setIsReviewsPaused(false)}
+              onTouchStart={() => setIsReviewsPaused(true)}
+              onTouchEnd={() => {
+                setTimeout(() => setIsReviewsPaused(false), 3500);
+              }}
+            >
               {guestReviews.map((rev) => (
                 <div className="review-card" key={rev.id}>
                   <div>
@@ -723,70 +711,14 @@ export default function App() {
       {currentPage === 'rooms' && (
         <>
           {/* STANDALONE NAVBAR */}
-          <div className="standalone-navbar-wrapper">
-            <div className="rivr-logo" onClick={() => navigateTo('home')}>
-              <div className="logo-icon">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-                  <polyline points="9 22 9 12 15 12 15 22"></polyline>
-                </svg>
-              </div>
-              <div>
-                <span className="logo-text">Edion Royal</span>
-                <span className="logo-subtext">Guesthouse</span>
-              </div>
-            </div>
-
-            <nav className="nav-menu">
-              <button 
-                className={`nav-link ${currentPage === 'home' ? 'active' : ''}`}
-                onClick={() => navigateTo('home')}
-              >
-                Home
-              </button>
-              <button 
-                className={`nav-link ${currentPage === 'rooms' ? 'active' : ''}`}
-                onClick={() => navigateTo('rooms')}
-              >
-                Rooms
-              </button>
-              <button 
-                className={`nav-link ${currentPage === 'amenities' ? 'active' : ''}`}
-                onClick={() => navigateTo('amenities')}
-              >
-                Amenities
-              </button>
-              <button 
-                className={`nav-link ${currentPage === 'location' ? 'active' : ''}`}
-                onClick={() => navigateTo('location')}
-              >
-                Location
-              </button>
-              <button 
-                className={`nav-link ${currentPage === 'contact' ? 'active' : ''}`}
-                onClick={() => navigateTo('contact')}
-              >
-                Contact
-              </button>
-            </nav>
-
-            <div className="nav-right-actions">
-              <a href={`tel:${cmsContent?.contact?.callNumber || '0789724254'}`} className="nav-phone-pill">
-                <Phone size={14} />
-                <span>{cmsContent?.contact?.phone || '078 972 4254'}</span>
-              </a>
-              <button 
-                className="btn-book-demo"
-                onClick={() => setActiveModal('booking')}
-                aria-label="Book Now"
-              >
-                <span>Book now</span>
-                <div className="btn-icon-circle">
-                  <ArrowUpRight size={13} strokeWidth={2.6} />
-                </div>
-              </button>
-            </div>
-          </div>
+          <Navbar 
+            currentPage={currentPage}
+            navigateTo={navigateTo}
+            onOpenBooking={() => setActiveModal('booking')}
+            cmsContent={cmsContent}
+            onToggleMobileDrawer={() => setMobileDrawerOpen(prev => !prev)}
+            isStandalone={true}
+          />
 
           {/* ROOMS PAGE HEADER */}
           <section className="amenities-page-header-card">
@@ -863,70 +795,14 @@ export default function App() {
       {currentPage === 'amenities' && (
         <>
           {/* STANDALONE NAVBAR */}
-          <div className="standalone-navbar-wrapper">
-            <div className="rivr-logo" onClick={() => navigateTo('home')}>
-              <div className="logo-icon">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-                  <polyline points="9 22 9 12 15 12 15 22"></polyline>
-                </svg>
-              </div>
-              <div>
-                <span className="logo-text">Edion Royal</span>
-                <span className="logo-subtext">Guesthouse</span>
-              </div>
-            </div>
-
-            <nav className="nav-menu">
-              <button 
-                className={`nav-link ${currentPage === 'home' ? 'active' : ''}`}
-                onClick={() => navigateTo('home')}
-              >
-                Home
-              </button>
-              <button 
-                className={`nav-link ${currentPage === 'rooms' ? 'active' : ''}`}
-                onClick={() => navigateTo('rooms')}
-              >
-                Rooms
-              </button>
-              <button 
-                className={`nav-link ${currentPage === 'amenities' ? 'active' : ''}`}
-                onClick={() => navigateTo('amenities')}
-              >
-                Amenities
-              </button>
-              <button 
-                className={`nav-link ${currentPage === 'location' ? 'active' : ''}`}
-                onClick={() => navigateTo('location')}
-              >
-                Location
-              </button>
-              <button 
-                className={`nav-link ${currentPage === 'contact' ? 'active' : ''}`}
-                onClick={() => navigateTo('contact')}
-              >
-                Contact
-              </button>
-            </nav>
-
-            <div className="nav-right-actions">
-              <a href={`tel:${cmsContent?.contact?.callNumber || '0789724254'}`} className="nav-phone-pill">
-                <Phone size={14} />
-                <span>{cmsContent?.contact?.phone || '078 972 4254'}</span>
-              </a>
-              <button 
-                className="btn-book-demo"
-                onClick={() => setActiveModal('booking')}
-                aria-label="Book Now"
-              >
-                <span>Book now</span>
-                <div className="btn-icon-circle">
-                  <ArrowUpRight size={13} strokeWidth={2.6} />
-                </div>
-              </button>
-            </div>
-          </div>
+          <Navbar 
+            currentPage={currentPage}
+            navigateTo={navigateTo}
+            onOpenBooking={() => setActiveModal('booking')}
+            cmsContent={cmsContent}
+            onToggleMobileDrawer={() => setMobileDrawerOpen(prev => !prev)}
+            isStandalone={true}
+          />
 
           {/* AMENITIES CLEAN HEADER BANNER */}
           <section className="amenities-page-header-card">
@@ -1006,70 +882,13 @@ export default function App() {
             <div className="hero-overlay-layer" />
 
             {/* TOP NAVBAR */}
-            <header className="rivr-navbar">
-              <div className="rivr-logo" onClick={() => navigateTo('home')}>
-                <div className="logo-icon">
-                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-                    <polyline points="9 22 9 12 15 12 15 22"></polyline>
-                  </svg>
-                </div>
-                <div>
-                  <span className="logo-text">Edion Royal</span>
-                  <span className="logo-subtext">Guesthouse</span>
-                </div>
-              </div>
-
-              <nav className="nav-menu">
-                <button 
-                  className={`nav-link ${currentPage === 'home' ? 'active' : ''}`}
-                  onClick={() => navigateTo('home')}
-                >
-                  Home
-                </button>
-                <button 
-                  className={`nav-link ${currentPage === 'rooms' ? 'active' : ''}`}
-                  onClick={() => navigateTo('rooms')}
-                >
-                  Rooms
-                </button>
-                <button 
-                  className={`nav-link ${currentPage === 'amenities' ? 'active' : ''}`}
-                  onClick={() => navigateTo('amenities')}
-                >
-                  Amenities
-                </button>
-                <button 
-                  className={`nav-link ${currentPage === 'location' ? 'active' : ''}`}
-                  onClick={() => navigateTo('location')}
-                >
-                  Location
-                </button>
-                <button 
-                  className={`nav-link ${currentPage === 'contact' ? 'active' : ''}`}
-                  onClick={() => navigateTo('contact')}
-                >
-                  Contact
-                </button>
-              </nav>
-
-              <div className="nav-right-actions">
-                <a href={`tel:${cmsContent?.contact?.callNumber || '0789724254'}`} className="nav-phone-pill">
-                  <Phone size={14} />
-                  <span>{cmsContent?.contact?.phone || '078 972 4254'}</span>
-                </a>
-                <button 
-                  className="btn-book-demo"
-                  onClick={() => setActiveModal('booking')}
-                  aria-label="Book Now"
-                >
-                  <span>Book now</span>
-                  <div className="btn-icon-circle">
-                    <ArrowUpRight size={13} strokeWidth={2.6} />
-                  </div>
-                </button>
-              </div>
-            </header>
+            <Navbar 
+              currentPage={currentPage}
+              navigateTo={navigateTo}
+              onOpenBooking={() => setActiveModal('booking')}
+              cmsContent={cmsContent}
+              onToggleMobileDrawer={() => setMobileDrawerOpen(prev => !prev)}
+            />
 
             {/* CENTER LOCATION HERO CONTENT */}
             <section className="hero-center-content">
@@ -1250,70 +1069,14 @@ export default function App() {
       {currentPage === 'contact' && (
         <>
           {/* STANDALONE NAVBAR */}
-          <div className="standalone-navbar-wrapper">
-            <div className="rivr-logo" onClick={() => navigateTo('home')}>
-              <div className="logo-icon">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-                  <polyline points="9 22 9 12 15 12 15 22"></polyline>
-                </svg>
-              </div>
-              <div>
-                <span className="logo-text">Edion Royal</span>
-                <span className="logo-subtext">Guesthouse</span>
-              </div>
-            </div>
-
-            <nav className="nav-menu">
-              <button 
-                className={`nav-link ${currentPage === 'home' ? 'active' : ''}`}
-                onClick={() => navigateTo('home')}
-              >
-                Home
-              </button>
-              <button 
-                className={`nav-link ${currentPage === 'rooms' ? 'active' : ''}`}
-                onClick={() => navigateTo('rooms')}
-              >
-                Rooms
-              </button>
-              <button 
-                className={`nav-link ${currentPage === 'amenities' ? 'active' : ''}`}
-                onClick={() => navigateTo('amenities')}
-              >
-                Amenities
-              </button>
-              <button 
-                className={`nav-link ${currentPage === 'location' ? 'active' : ''}`}
-                onClick={() => navigateTo('location')}
-              >
-                Location
-              </button>
-              <button 
-                className={`nav-link ${currentPage === 'contact' ? 'active' : ''}`}
-                onClick={() => navigateTo('contact')}
-              >
-                Contact
-              </button>
-            </nav>
-
-            <div className="nav-right-actions">
-              <a href={`tel:${cmsContent?.contact?.callNumber || '0789724254'}`} className="nav-phone-pill">
-                <Phone size={14} />
-                <span>{cmsContent?.contact?.phone || '078 972 4254'}</span>
-              </a>
-              <button 
-                className="btn-book-demo"
-                onClick={() => setActiveModal('booking')}
-                aria-label="Book Now"
-              >
-                <span>Book now</span>
-                <div className="btn-icon-circle">
-                  <ArrowUpRight size={13} strokeWidth={2.6} />
-                </div>
-              </button>
-            </div>
-          </div>
+          <Navbar 
+            currentPage={currentPage}
+            navigateTo={navigateTo}
+            onOpenBooking={() => setActiveModal('booking')}
+            cmsContent={cmsContent}
+            onToggleMobileDrawer={() => setMobileDrawerOpen(prev => !prev)}
+            isStandalone={true}
+          />
 
           {/* CONTACT HEADER CARD */}
           <section className="amenities-page-header-card">
@@ -1662,6 +1425,17 @@ export default function App() {
           </div>
         </div>
       )}
+
+      {/* MOBILE NAVIGATION DRAWER */}
+      <MobileDrawer 
+        isOpen={mobileDrawerOpen}
+        onClose={() => setMobileDrawerOpen(false)}
+        currentPage={currentPage}
+        navigateTo={navigateTo}
+        onOpenBooking={() => setActiveModal('booking')}
+        cmsContent={cmsContent}
+      />
     </main>
   );
 }
+
