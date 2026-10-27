@@ -677,23 +677,6 @@ export default function App() {
                 <div className="section-tag">Guest reviews</div>
                 <h2 className="section-title">What our guests say</h2>
               </div>
-
-              <div className="reviews-nav-controls">
-                <button 
-                  className="btn-review-nav" 
-                  onClick={() => scrollReviews('left')}
-                  aria-label="Previous Reviews"
-                >
-                  <ChevronLeft size={20} />
-                </button>
-                <button 
-                  className="btn-review-nav" 
-                  onClick={() => scrollReviews('right')}
-                  aria-label="Next Reviews"
-                >
-                  <ChevronRight size={20} />
-                </button>
-              </div>
             </div>
 
             <div 
@@ -1336,8 +1319,20 @@ export default function App() {
       {/* FOOTER                                                       */}
       {/* ============================================================ */}
       <footer className="guesthouse-footer">
-        <div>
-          {cmsContent?.footer?.copyright || '© 2026 Edion Royal Guesthouse, Milnerton, Cape Town.'}
+        <div className="footer-left-col">
+          <span>{cmsContent?.footer?.copyright || '© 2026 Edion Royal Guesthouse, Milnerton, Cape Town.'}</span>
+          <span className="footer-credit-sep">·</span>
+          <span className="footer-developer-credit">
+            Developed by{' '}
+            <a 
+              href="https://skywebinternational.com" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="developer-link"
+            >
+              Skyweb International
+            </a>
+          </span>
         </div>
         <div className="footer-features-badges">
           {(cmsContent?.footer?.badges || ['Free WiFi', 'Free parking', '24-hour reception']).map((badge, idx, arr) => (
