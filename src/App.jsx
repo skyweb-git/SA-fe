@@ -155,7 +155,9 @@ export default function App() {
 
   const scrollReviews = (direction) => {
     if (reviewsScrollRef.current) {
-      const scrollAmount = direction === 'left' ? -400 : 400;
+      const card = reviewsScrollRef.current.querySelector('.review-card');
+      const step = card ? card.offsetWidth + 14 : 340;
+      const scrollAmount = direction === 'left' ? -step : step;
       reviewsScrollRef.current.scrollBy({ left: scrollAmount, behavior: 'smooth' });
     }
   };
