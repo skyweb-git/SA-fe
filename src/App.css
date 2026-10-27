@@ -1944,6 +1944,36 @@
     border-radius: 30px;
   }
 
+  .inclusions-card .welcome-title,
+  .welcome-about-card:has(.amenities-spotlight-grid) .welcome-title {
+    font-size: clamp(20px, 2.8vw, 28px);
+    white-space: nowrap;
+  }
+
+  .amenities-spotlight-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-top: 20px;
+  }
+
+  .amenity-spotlight-card {
+    padding: 24px 20px;
+    border-radius: 24px;
+    min-height: auto;
+  }
+
+  .spotlight-title {
+    font-size: 17px;
+    margin-top: 14px;
+    margin-bottom: 8px;
+    white-space: nowrap;
+  }
+
+  .spotlight-text {
+    font-size: 13.5px;
+    line-height: 1.5;
+  }
+
   .amenities-page-header-card {
     padding: 40px 28px;
     border-radius: 30px;
@@ -2191,11 +2221,24 @@
     margin-top: 0;
   }
 
-  /* Welcome Card */
+  /* Welcome / Inclusions Card - Mobile View Fix (Zero horizontal overflow, full paragraph visibility) */
   .welcome-about-card {
-    padding: 22px 16px;
-    border-radius: 20px;
-    gap: 14px;
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    padding: 24px 18px !important;
+    border-radius: 24px !important;
+    gap: 14px !important;
+    overflow: hidden !important;
+  }
+
+  .welcome-about-card > div {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
   }
 
   .welcome-title {
@@ -2203,9 +2246,127 @@
     line-height: 1.25;
   }
 
+  /* Standard Inclusions Badge & Single-Line Title */
+  .inclusions-card .welcome-badge,
+  .welcome-about-card:has(.amenities-spotlight-grid) .welcome-badge {
+    font-size: 11.5px !important;
+    letter-spacing: 0.1em !important;
+    margin-bottom: 6px !important;
+    display: inline-block !important;
+  }
+
+  .inclusions-card .welcome-title,
+  .welcome-about-card:has(.amenities-spotlight-grid) .welcome-title {
+    font-size: clamp(15px, 4.3vw, 19.5px) !important;
+    line-height: 1.25 !important;
+    white-space: nowrap !important;
+    letter-spacing: -0.025em !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    margin-bottom: 8px !important;
+  }
+
+  /* Full Paragraph Text with No Overflow / Cutoff */
   .welcome-body-text {
-    font-size: 13.5px;
-    line-height: 1.55;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .welcome-body-text p,
+  .inclusions-card .welcome-body-text p,
+  .welcome-about-card:has(.amenities-spotlight-grid) .welcome-body-text p {
+    font-size: 13.5px !important;
+    line-height: 1.55 !important;
+    color: #4a607a !important;
+    margin-bottom: 12px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    word-break: normal !important;
+    overflow-wrap: break-word !important;
+  }
+
+  /* TILES ONE BY ONE on Mobile View (Rooms & Amenities Pages) */
+  .amenities-spotlight-grid {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 12px !important;
+    margin-top: 14px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Display each tile one by one full-width */
+  .amenity-spotlight-card,
+  .amenities-spotlight-grid .amenity-spotlight-card {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    justify-content: flex-start !important;
+    padding: 18px 18px !important;
+    border-radius: 20px !important;
+    min-height: auto !important;
+    background: #ffffff !important;
+    border: 1.5px solid #e2e8f0 !important;
+    box-shadow: 0 3px 12px rgba(15, 25, 45, 0.04) !important;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .amenity-spotlight-card:hover {
+    transform: none !important;
+    border-color: #cbd5e1 !important;
+  }
+
+  .amenity-spotlight-card:active {
+    transform: scale(0.99) !important;
+  }
+
+  .amenity-spotlight-card svg {
+    width: 40px !important;
+    height: 40px !important;
+    min-width: 40px !important;
+    box-sizing: border-box !important;
+    padding: 8px !important;
+    background: #eff6ff !important;
+    border: 1px solid #dbeafe !important;
+    border-radius: 12px !important;
+    color: #2563eb !important;
+    flex-shrink: 0 !important;
+    margin-bottom: 14px !important;
+    margin-top: 0 !important;
+  }
+
+  .amenity-spotlight-card > div {
+    width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  .spotlight-title {
+    font-size: 16px !important;
+    font-weight: 800 !important;
+    color: #102138 !important;
+    letter-spacing: -0.015em !important;
+    margin-top: 0 !important;
+    margin-bottom: 6px !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    line-height: 1.25 !important;
+    width: 100% !important;
+  }
+
+  .spotlight-text {
+    font-size: 13px !important;
+    line-height: 1.5 !important;
+    color: #556c86 !important;
+    margin: 0 !important;
+    font-weight: 500 !important;
+    width: 100% !important;
   }
 
   .welcome-amenities-tags {

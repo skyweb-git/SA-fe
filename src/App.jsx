@@ -799,7 +799,7 @@ export default function App() {
           </section>
 
           {/* ROOM INCLUSIONS & GUARANTEES */}
-          <section className="welcome-about-card" style={{ marginTop: '40px' }}>
+          <section className="welcome-about-card inclusions-card" style={{ marginTop: '40px' }}>
             <div>
               <span className="welcome-badge">{cmsContent?.inclusions?.badge || 'Standard Inclusions'}</span>
               <h2 className="welcome-title">
@@ -873,7 +873,7 @@ export default function App() {
           </section>
 
           {/* AMENITY EXPERIENCE SPOTLIGHT CARDS */}
-          <section className="welcome-about-card" style={{ marginTop: '40px' }}>
+          <section className="welcome-about-card inclusions-card" style={{ marginTop: '40px' }}>
             <div>
               <span className="welcome-badge">{cmsContent?.inclusions?.badge || 'Self-Catering & Comfort'}</span>
               <h2 className="welcome-title">
