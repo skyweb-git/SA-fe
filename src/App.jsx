@@ -64,6 +64,31 @@ export default function App() {
   });
   const [bookingSubmitted, setBookingSubmitted] = useState(false);
 
+  // Lock background scroll when mobile drawer or modal is open
+  useEffect(() => {
+    const isLocked = Boolean(mobileDrawerOpen || activeModal);
+    if (!isLocked) return;
+
+    const scrollY = window.scrollY;
+    const originalOverflow = document.body.style.overflow;
+    const originalPosition = document.body.style.position;
+    const originalTop = document.body.style.top;
+    const originalWidth = document.body.style.width;
+
+    document.body.style.overflow = 'hidden';
+    document.body.style.position = 'fixed';
+    document.body.style.top = `-${scrollY}px`;
+    document.body.style.width = '100%';
+
+    return () => {
+      document.body.style.overflow = originalOverflow;
+      document.body.style.position = originalPosition;
+      document.body.style.top = originalTop;
+      document.body.style.width = originalWidth;
+      window.scrollTo(0, scrollY);
+    };
+  }, [Boolean(mobileDrawerOpen || activeModal)]);
+
   // Auto-slide effect for "What our guests say" reviews carousel
   useEffect(() => {
     if (currentPage !== 'home' || isReviewsPaused) return;

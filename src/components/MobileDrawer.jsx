@@ -40,7 +40,15 @@ export default function MobileDrawer({
   const callNumber = cmsContent?.contact?.callNumber || '0789724254';
 
   return (
-    <div className="mobile-drawer-overlay" onClick={onClose}>
+    <div 
+      className="mobile-drawer-overlay" 
+      onClick={onClose}
+      onTouchMove={(e) => {
+        if (e.target === e.currentTarget) {
+          e.preventDefault();
+        }
+      }}
+    >
       <div className="mobile-drawer-content" onClick={(e) => e.stopPropagation()}>
         <div className="mobile-drawer-header">
           <div className="rivr-logo mobile-drawer-logo" onClick={() => { navigateTo('home'); onClose(); }}>
