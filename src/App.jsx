@@ -351,6 +351,50 @@ export default function App() {
     }
   };
 
+  const renderDistancesGrid = (distances) => {
+    const defaultList = [
+      { name: 'Milnerton Beach', distance: '1.8 km (3 mins)' },
+      { name: 'Century City / Canal Walk', distance: '7 km (8 mins)' },
+      { name: 'CTICC Convention Centre', distance: '10 km (12 mins)' },
+      { name: 'Robben Island Ferry', distance: '11 km (15 mins)' },
+      { name: 'V&A Waterfront', distance: '13 km (16 mins)' },
+      { name: 'Cape Town International Airport', distance: '18 km (20 mins)' }
+    ];
+
+    const items = (distances && distances.length > 0) ? distances : defaultList;
+
+    return (
+      <div className="distances-grid">
+        {items.map((item, idx) => {
+          const raw = String(item.distance || '');
+          const match = raw.match(/^(.*?)(?:\s*\((.*?)\))?$/);
+          const kmPart = match && match[1] ? match[1].trim() : raw;
+          const timePart = match && match[2] ? match[2].trim() : '';
+
+          return (
+            <div className="distance-item-box" key={idx}>
+              <div className="distance-info">
+                <div className="distance-icon-pin">
+                  <MapPin size={16} strokeWidth={2.4} />
+                </div>
+                <span className="distance-name">{item.name}</span>
+              </div>
+              <div className="distance-meta-badge">
+                <span className="distance-km">{kmPart}</span>
+                {timePart && (
+                  <span className="distance-time">
+                    <Clock size={11} strokeWidth={2.4} />
+                    <span>{timePart}</span>
+                  </span>
+                )}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    );
+  };
+
   return (
     <main className="rivr-page-container">
       {/* Heavy SEO Header Powered by react-helmet-async */}
@@ -621,21 +665,7 @@ export default function App() {
               </p>
             </div>
 
-            <div className="distances-grid">
-              {(cmsContent?.locationSection?.distances || [
-                { name: 'Milnerton Beach', distance: '1.8 km' },
-                { name: 'Century City / Canal Walk', distance: '7 km' },
-                { name: 'CTICC Convention Centre', distance: '10 km' },
-                { name: 'Robben Island Ferry', distance: '11 km' },
-                { name: 'V&A Waterfront', distance: '13 km' },
-                { name: 'Cape Town International Airport', distance: '18 km' }
-              ]).map((dist, idx) => (
-                <div className="distance-item-box" key={idx}>
-                  <span className="distance-name">{dist.name}</span>
-                  <span className="distance-km">{dist.distance}</span>
-                </div>
-              ))}
-            </div>
+            {renderDistancesGrid(cmsContent?.locationSection?.distances)}
           </section>
 
           {/* GUEST REVIEWS */}
@@ -1050,14 +1080,7 @@ export default function App() {
               <h3 style={{ fontSize: '20px', fontWeight: 800, color: '#102138', marginBottom: '16px' }}>
                 Key Destinations & Drive Times
               </h3>
-              <div className="distances-grid">
-                {(cmsContent?.locationSection?.distances || []).map((item, idx) => (
-                  <div key={idx} className="distance-item-box">
-                    <span className="distance-name">{item.name}</span>
-                    <span className="distance-km">{item.distance}</span>
-                  </div>
-                ))}
-              </div>
+              {renderDistancesGrid(cmsContent?.locationSection?.distances)}
             </div>
           </section>
         </>
