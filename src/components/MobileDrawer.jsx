@@ -8,7 +8,7 @@ import {
   Phone, 
   Mail, 
   Calendar, 
-  ArrowUpRight,
+  ArrowUpRight, 
   MessageSquare,
   ChevronRight
 } from 'lucide-react';
@@ -44,16 +44,7 @@ export default function MobileDrawer({
       <div className="mobile-drawer-content" onClick={(e) => e.stopPropagation()}>
         <div className="mobile-drawer-header">
           <div className="rivr-logo mobile-drawer-logo" onClick={() => { navigateTo('home'); onClose(); }}>
-            <div className="logo-icon">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-                <polyline points="9 22 9 12 15 12 15 22"></polyline>
-              </svg>
-            </div>
-            <div>
-              <span className="logo-text">Edion Royal</span>
-              <span className="logo-subtext">Guesthouse</span>
-            </div>
+            <span className="logo-text">Edion Royal</span>
           </div>
           <button className="mobile-drawer-close" onClick={onClose} aria-label="Close menu">
             <X size={20} />
