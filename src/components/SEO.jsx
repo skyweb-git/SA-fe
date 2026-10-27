@@ -19,7 +19,7 @@ export default function SEO({
   const addressStreet = heroData.addressTitle || '7 Arum Street';
   const addressArea = heroData.addressSubtitle || 'Milnerton, Cape Town';
   const addressPostal = '7441';
-  const email = 'edionroyal@gmail.com';
+  const email = 'edionroyalcpt@gmail.com';
 
   // Page-specific metadata configurations
   const pageConfigs = {
