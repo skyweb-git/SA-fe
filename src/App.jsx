@@ -1319,28 +1319,29 @@ export default function App() {
       {/* FOOTER                                                       */}
       {/* ============================================================ */}
       <footer className="guesthouse-footer">
-        <div className="footer-left-col">
-          <span>{cmsContent?.footer?.copyright || '© 2026 Edion Royal Guesthouse, Milnerton, Cape Town.'}</span>
-          <span className="footer-credit-sep">·</span>
-          <span className="footer-developer-credit">
-            Developed by{' '}
-            <a 
-              href="https://skywebinternational.com" 
-              target="_blank" 
-              rel="noopener noreferrer" 
-              className="developer-link"
-            >
-              Skyweb International
-            </a>
-          </span>
+        <div className="footer-top-row">
+          <div>
+            {cmsContent?.footer?.copyright || '© 2026 Edion Royal Guesthouse, Milnerton, Cape Town.'}
+          </div>
+          <div className="footer-features-badges">
+            {(cmsContent?.footer?.badges || ['Free WiFi', 'Free parking', '24-hour reception']).map((badge, idx, arr) => (
+              <React.Fragment key={idx}>
+                <span>{badge}</span>
+                {idx < arr.length - 1 && <span>·</span>}
+              </React.Fragment>
+            ))}
+          </div>
         </div>
-        <div className="footer-features-badges">
-          {(cmsContent?.footer?.badges || ['Free WiFi', 'Free parking', '24-hour reception']).map((badge, idx, arr) => (
-            <React.Fragment key={idx}>
-              <span>{badge}</span>
-              {idx < arr.length - 1 && <span>·</span>}
-            </React.Fragment>
-          ))}
+        <div className="footer-bottom-credit">
+          Developed by{' '}
+          <a 
+            href="https://skywebinternational.com" 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            className="developer-link"
+          >
+            Skyweb International
+          </a>
         </div>
       </footer>
 
